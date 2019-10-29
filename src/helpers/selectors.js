@@ -5,7 +5,13 @@ const getAppointmentsForDay = function(st, day) {
 
   return matchedDay[0].appointments.map(val => st.appointments[`${val}`]);
 
-  // return [];
+};
+const getInterviewersForDay = function(st, day) {
+  let matchedDay = st.days.filter(obj => obj.name === day);
+  if (!matchedDay[0]) return [];
+
+  return matchedDay[0].interviewers.map(val => st.interviewers[`${val}`]);
+
 };
 
 const getInterview = function(st, interview) {
@@ -15,4 +21,4 @@ const getInterview = function(st, interview) {
   return ({ ...interview, interviewer: st.interviewers[`${interview.interviewer}`] });
 };
 
-export { getAppointmentsForDay, getInterview };
+export { getAppointmentsForDay, getInterview, getInterviewersForDay };

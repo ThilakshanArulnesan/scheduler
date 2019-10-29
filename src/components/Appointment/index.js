@@ -3,22 +3,38 @@ import React from 'react';
 import Header from './Header';
 import Show from './Show';
 import Empty from './Empty';
-/*
+import FORM from './Form';
+import { useVisualMode } from "../../hooks/useVisualMode";
 
-All Appointment components will render a Header that takes in a time prop.
-If props.interview is truthy (an interview object) the Appointment will render the <Show /> component, else it should render the <Empty /> component.
-Using ternary operator version of conditional rendering makes the most sense in this case where we want to render Show or Empty based on props.interview.
 
-When we're done this step our Appointment component should match the screenshot below.
-
-*/
 export default function Appointment(props) {
-  const { time, interview } = props;
+  const { time, interview, onAdd, interviewers } = props;
+
+  const EMPTY = "EMPTY";
+  const SHOW = "SHOW";
+  const CREATE = "CREATE";
+  const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
+
+
   return (
     <article className="appointment">
       <Header time={time} />
-      {interview ? <Show student={interview.student} interviewer={interview.interviewer.name} /> : <Empty />}
+      {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
+      {mode === SHOW && (
+        <Show
+          student={interview.student}
+          interviewer={interview.interviewer.name}
+        />
+      )}
+      {mode === CREATE && (
+        <FORM
+
+          interviewers={interviewers}
+          onCancel={() => back()}
+        />
+      )}
     </article>
   );
+
 
 }
