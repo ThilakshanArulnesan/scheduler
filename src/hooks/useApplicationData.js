@@ -85,8 +85,6 @@ const useApplicationData = function() {
     webSocket.onopen = () => {
       webSocket.send("ping");
       webSocket.onmessage = (event) => {
-        console.log('message receieved: ', event.data);
-
         let msg = JSON.parse(event.data);
 
         if (msg.type === "SET_INTERVIEW") {
