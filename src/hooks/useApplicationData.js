@@ -131,6 +131,8 @@ const useApplicationData = function() {
 };
 
 export { useApplicationData };
+
+
 function haveClientCancelAppointment(state, id, dispatch) {
   const appointment = {
     ...state.appointments[id],
@@ -140,6 +142,10 @@ function haveClientCancelAppointment(state, id, dispatch) {
     ...state.appointments,
     [id]: appointment
   };
+  // const increaseSpots = function() {
+  //};
+
   dispatch({ type: "SET_INTERVIEW", value: appointments });
+  state.days[Math.floor(id / 5)]--;
 }
 
