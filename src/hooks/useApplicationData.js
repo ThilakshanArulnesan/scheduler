@@ -86,7 +86,20 @@ const useApplicationData = function() {
     webSocket.onopen = () => {
       webSocket.send("ping");
       webSocket.onmessage = (event) => {
-        console.log('mesave receieved: ', event.data);
+        console.log('message receieved: ', event.data);
+
+        let msg = JSON.parse(event.data);
+
+        if (msg.type === "SET_INTERVIEW") {
+          //Server is informing us of a change to the interviews
+
+          //Check if we should delete the interview
+          if (msg.interview) {
+            console.log(`shouldn't be here`);
+          } else {
+            haveClientCancelAppointment(state, msg.id, dispatch);
+          }
+        }
       }
     }
 
@@ -94,21 +107,12 @@ const useApplicationData = function() {
     return (() => {
       webSocket.close();
     });
-  }, []);
+  }, [state]);
 
   const cancelInterview = function(id) {
     return axios.delete(`/api/appointments/${id}`).then(
       () => {
-        const appointment = { //Set the appoint corresponding to the id with an interview of null
-          ...state.appointments[id],
-          interview: null
-        };
-        const appointments = {
-          ...state.appointments,
-          [id]: appointment
-        };
-        dispatch({ type: "SET_INTERVIEW", value: appointments });
-
+        haveClientCancelAppointment(state, id, dispatch);
       });
   };
 
@@ -116,3 +120,15 @@ const useApplicationData = function() {
 };
 
 export { useApplicationData };
+function haveClientCancelAppointment(state, id, dispatch) {
+  const appointment = {
+    ...state.appointments[id],
+    interview: null
+  };
+  const appointments = {
+    ...state.appointments,
+    [id]: appointment
+  };
+  dispatch({ type: "SET_INTERVIEW", value: appointments });
+}
+

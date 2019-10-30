@@ -1,5 +1,5 @@
 import 'components/Appointment/styles.scss'
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from './Header';
 import Show from './Show';
 import Empty from './Empty';
@@ -22,6 +22,10 @@ export default function Appointment(props) {
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
+
+  useEffect(() => {
+    props.interview ? transition("SHOW") : transition("EMPTY");
+  }, [props.interview]);
 
   const save = function(name, interviewer) {
     const interview = {
@@ -51,7 +55,7 @@ export default function Appointment(props) {
     <article className="appointment">
       <Header time={time} />
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
-      {mode === SHOW && (
+      {mode === SHOW && interview && (
         <Show
           student={interview.student}
           interviewer={interview.interviewer.name}
