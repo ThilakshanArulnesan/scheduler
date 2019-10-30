@@ -17,7 +17,6 @@ export default function Application(props) {
   });
 
   const cancelInterview = function(id) {
-    console.log(id);
     return axios.delete(`/api/appointments/${id}`).then(
       () => {
         const appointment = { //Set the appoint corresponding to the id with an interview of null
