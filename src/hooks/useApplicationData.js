@@ -79,6 +79,16 @@ const useApplicationData = function() {
     });
   }, []); //Only want this to execute once on load
 
+  useEffect(() => {
+    //Establish a ws connection
+    const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
+
+    //Cleanup socket
+    return (() => {
+      webSocket.close();
+    });
+  }, []);
+
   const cancelInterview = function(id) {
     return axios.delete(`/api/appointments/${id}`).then(
       () => {
