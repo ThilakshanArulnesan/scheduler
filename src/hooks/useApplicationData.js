@@ -95,7 +95,8 @@ const useApplicationData = function() {
 
           //Check if we should delete the interview
           if (msg.interview) {
-            console.log(`shouldn't be here`);
+
+
           } else {
             haveClientCancelAppointment(state, msg.id, dispatch);
           }
