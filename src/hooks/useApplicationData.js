@@ -83,6 +83,13 @@ const useApplicationData = function() {
     //Establish a ws connection
     const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
 
+    webSocket.onopen = () => {
+      webSocket.send("ping");
+      webSocket.onmessage = (event) => {
+        console.log('mesave receieved: ', event.data);
+      }
+    }
+
     //Cleanup socket
     return (() => {
       webSocket.close();
