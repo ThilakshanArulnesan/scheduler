@@ -14,7 +14,27 @@ export default function Application(props) {
     days: [],
     appointments: {},
     interviewers: {}
-  })
+  });
+
+  const cancelInterview = function(id) {
+    console.log(id);
+    return axios.delete(`/api/appointments/${id}`).then(
+      () => {
+        const appointment = { //Set the appoint corresponding to the id with an interview of null
+          ...state.appointments[id],
+          interview: null
+        };
+        const appointments = {
+          ...state.appointments,
+          [id]: appointment
+        };
+        setState({
+          ...state,
+          appointments
+        });
+      });
+  };
+
 
   const bookInterview = function(id, interview) {
     console.log(id, interview);
@@ -29,17 +49,6 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment
     };
-    /*
-Within bookInterview, make a PUT request to the /api/appointments/:id endpoint to update the database with the interview data.
-
-There are three stages to this sequence.
-
-Make the request with the correct endpoint using the appointment id, with the interview data in the body, we should receive a 204 No Content response.
-When the response comes back we update the state using the existing setState.
-Transition to SHOW when the promise returned by props.bookInterview resolves. This means that the PUT request is complete.
-When we execute the full sequence of events, the result looks the same as before. The difference is that when the browser refreshes, the data is persistent.
-    */
-
 
     return axios.put(`/api/appointments/${id}`,
       appointment
@@ -103,6 +112,7 @@ When we execute the full sequence of events, the result looks the same as before
             interview={interview}
             interviewers={getInterviewersForDay(state, state.day)}
             bookInterview={bookInterview}
+            cancelInterview={cancelInterview}
           />);
         })}
         <Appointment
