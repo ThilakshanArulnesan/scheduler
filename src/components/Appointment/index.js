@@ -27,6 +27,7 @@ export default function Appointment(props) {
     props.interview ? transition("SHOW") : transition("EMPTY");
   }, [props.interview]);
 
+
   const save = function(name, interviewer) {
     const interview = {
       student: name,
@@ -64,6 +65,7 @@ export default function Appointment(props) {
         />
       )}
       {mode === CREATE && (
+
         <FORM
           name={interview ? interview.student : ""}
           interviewer={interview ? interview.interviewer.id : null}

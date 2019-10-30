@@ -57,7 +57,7 @@ const useApplicationData = function() {
       dispatch({ type: "SET_INTERVIEW", value: appointments });
 
     })
-      .catch(console.errror);
+      .catch(console.error);
   };
 
   useEffect(() => {
@@ -94,6 +94,19 @@ const useApplicationData = function() {
 
           //Check if we should delete the interview
           if (msg.interview) {
+            const id = msg.id;
+            const interview = msg.interview;
+            const appointment = {
+              ...state.appointments[id],
+              interview: { ...interview }
+            };
+
+            const appointments = {
+              ...state.appointments,
+              [id]: appointment
+            };
+
+            dispatch({ type: "SET_INTERVIEW", value: appointments });
 
 
           } else {
