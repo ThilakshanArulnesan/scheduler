@@ -1,6 +1,5 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import axios from 'axios'
-import { debug } from 'util';
 
 
 const SET_DAY = "SET_DAY";
@@ -8,20 +7,16 @@ const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
 
 const reducer = function(state, action) {
-  //useState(,)
-  debugger;
   switch (action.type) {
     case SET_DAY:
       return { ...state, day: action.value }
     case SET_APPLICATION_DATA:
-      // setState(prev => ({ ...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }));
       return {
         ...state,
         days: action.value.days,
         appointments: action.value.appointments,
         interviewers: action.value.interviewers
       }
-    // return { ...state, appointments: action.appointments }
     case SET_INTERVIEW: {
       return { ...state, appointments: action.value }
     }
