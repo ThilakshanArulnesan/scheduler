@@ -77,7 +77,7 @@ const useApplicationData = function() {
         }
       })
     });
-  }, [state]);
+  }, []); //Only want this to execute once on load
 
   const cancelInterview = function(id) {
     return axios.delete(`/api/appointments/${id}`).then(
