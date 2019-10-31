@@ -1,8 +1,8 @@
 import { useState } from 'react';
 //custom hook
 const useVisualMode = function(initial) {
-  const [history, setHistory] = useState([initial]); //Don't need to work with state directly
-  console.log(history);
+
+  const [, setHistory] = useState([initial]); //Don't need to work with state directly
   const transition = function(newMode, replace = false) {
     setHistory((prev) => { //Note: must use prev
       if (replace) {

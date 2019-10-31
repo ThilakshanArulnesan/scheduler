@@ -27,6 +27,18 @@ export default function Appointment(props) {
       props.interview ? transition("SHOW") : transition("EMPTY");
     }, [props.interview]);
   */
+  useEffect(() => {
+    console.log(mode);
+    console.log(interview);
+
+    if (interview && mode === EMPTY) {
+      transition(SHOW);
+    }
+    if (interview === null && mode === SHOW) {
+      transition(EMPTY);
+    }
+
+  }, [interview, transition, mode]);
 
   const save = function(name, interviewer) {
     const interview = {
