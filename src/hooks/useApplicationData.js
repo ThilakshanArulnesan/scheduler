@@ -56,8 +56,7 @@ const useApplicationData = function() {
     ).then(() => {
       dispatch({ type: "SET_INTERVIEW", value: appointments });
 
-    })
-      .catch(console.error);
+    });
   };
 
   useEffect(() => {
@@ -146,6 +145,6 @@ function haveClientCancelAppointment(state, id, dispatch) {
   //};
 
   dispatch({ type: "SET_INTERVIEW", value: appointments });
-  state.days[Math.floor(id / 5)]--;
+  // state.days[Math.floor(id / 5)]--;
 }
 
