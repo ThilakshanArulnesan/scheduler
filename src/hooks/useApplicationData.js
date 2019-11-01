@@ -12,6 +12,7 @@ const reducer = function(state, action) {
     case SET_DAY:
       return { ...state, day: action.value }
     case SET_DAY_OF_WEEK:
+      console.log("SETTING DAY OF WEEK")
       const dayOfWeek = state.day[action.value.day];
       console.log(
         {
@@ -24,6 +25,8 @@ const reducer = function(state, action) {
 
       );
       // debugger;
+      console.log("DONE SETTING DAY OF WEEK")
+
       return {
         ...state,
         days: {
@@ -43,6 +46,7 @@ const reducer = function(state, action) {
       console.log("og state", state);
       console.log("This is the id", action.value);
       console.log("removing this appointment ", state.appointments[action.value]);
+      let appointId = state.appointments[action.value].id;
       console.log("adding this appointment ", action.app);
       const appointment = {
         ...state.appointments[action.value],
@@ -56,10 +60,31 @@ const reducer = function(state, action) {
         ...state.appointments,
         [action.value]: appointment
       };
-      console.log("Here are the appointments ", state.appointments);
+      const tempState = { ...state, appointments: appointments };
 
-      // debugger;
-      return { ...state, appointments: appointments }
+      console.log("Here are the appointments ", tempState.appointments);
+      console.log(`The temp. state is `, tempState);
+      //Now increment/decrement the number of spots for that day of the week.
+      console.log(`appointId is `, appointId);
+      //Get the day of the week:
+      console.log('my output', tempState.days.filter((day) => {
+        return day.appointments.includes(appointId);
+      })[0]);
+      const dayToModify = tempState.days.filter((day) => {
+        return day.appointments.includes(appointId);
+      })[0];
+      console.log(`day to modify is`, dayToModify);
+
+      const numSpots = dayToModify.appointments.reduce((acc, cur) => tempState.appointments[cur].interview ? acc : acc += 1, 0);
+      console.log(`my count ` + numSpots);
+
+      const modifiedDay = { ...dayToModify, spots: numSpots };
+      let modifiedDays = [...tempState.days];
+      modifiedDays[dayToModify.id - 1] = modifiedDay;
+      //const modifiedDays = [...tempState.days, [dayToModify.id - 1]: modifiedDay ];
+      console.log(modifiedDay);
+      console.log(`New state`, { ...tempState, days: modifiedDays });
+      return { ...tempState, days: modifiedDays }
     }
     // case MAKE_
     default:
@@ -146,11 +171,6 @@ const useApplicationData = function() {
               interview: { ...interview }
             };
             console.log(`here is the appointment`, appointment)
-            // const appointments = {
-            //   ...state.appointments,
-            //   [id]: appointment
-            // };
-            //    dispatch({ type: "SET_INTERVIEW", value: id, app: appointment });
 
             dispatch({ type: "SET_INTERVIEW", value: id, app: appointment });
           } else {
