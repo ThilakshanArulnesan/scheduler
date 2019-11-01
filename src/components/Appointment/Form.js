@@ -3,7 +3,7 @@ import Button from 'components/Button';
 import InterviewerList from 'components/InterviewerList'
 
 export default function Form(props) {
-  // const { name, interviewer, interviewers, onSave, onCancel } = props;
+
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const reset = () => {
@@ -26,9 +26,7 @@ export default function Form(props) {
             name='name'
             type="text"
             placeholder="Enter Student Name"
-          /*
-            This must be a controlled component
-          */
+
           />
         </form>
         <InterviewerList interviewers={props.interviewers} interviewer={interviewer} setInterviewer={setInterviewer} />

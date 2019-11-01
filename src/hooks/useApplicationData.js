@@ -1,39 +1,14 @@
 import { useEffect, useReducer } from 'react';
 import axios from 'axios'
-import { getAppointmentsForDay } from '../helpers/selectors'
 
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
-const SET_DAY_OF_WEEK = "SET_DAY_OF_WEEK";
 
 const reducer = function(state, action) {
   switch (action.type) {
     case SET_DAY:
       return { ...state, day: action.value }
-    case SET_DAY_OF_WEEK:
-      console.log("SETTING DAY OF WEEK")
-      const dayOfWeek = state.day[action.value.day];
-      console.log(
-        {
-          ...state,
-          days: {
-            ...state.days,
-            [dayOfWeek]: { ...dayOfWeek, spots: action.value.spots }
-          }
-        }
-
-      );
-      // debugger;
-      console.log("DONE SETTING DAY OF WEEK")
-
-      return {
-        ...state,
-        days: {
-          ...state.days,
-          [dayOfWeek]: { ...dayOfWeek, spots: action.value.spots }
-        }
-      }
     case SET_APPLICATION_DATA:
       return {
         ...state,
@@ -42,7 +17,7 @@ const reducer = function(state, action) {
         interviewers: action.value.interviewers
       }
     case SET_INTERVIEW: {
-      //debugger;
+
       console.log("og state", state);
       console.log("This is the id", action.value);
       console.log("removing this appointment ", state.appointments[action.value]);
@@ -55,7 +30,6 @@ const reducer = function(state, action) {
 
       console.log("removing this appointment, after ", state.appointments[action.value]);
 
-      //  debugger;
       const appointments = {
         ...state.appointments,
         [action.value]: appointment
@@ -86,7 +60,7 @@ const reducer = function(state, action) {
       console.log(`New state`, { ...tempState, days: modifiedDays });
       return { ...tempState, days: modifiedDays }
     }
-    // case MAKE_
+
     default:
       throw new Error(
         `Tried to reduce with unsupported action type: ${action.type}`
@@ -116,11 +90,6 @@ const useApplicationData = function() {
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
-    };
-
-    const appointments = {
-      ...state.appointments,
-      [id]: appointment
     };
 
     return axios.put(`/api/appointments/${id}`,
@@ -161,7 +130,6 @@ const useApplicationData = function() {
 
         if (msg.type === "SET_INTERVIEW") {
           //Server is informing us of a change to the interviews
-          console.log(msg);
           //Check if we should delete the interview
           if (msg.interview) {
             const id = msg.id;
@@ -170,7 +138,6 @@ const useApplicationData = function() {
               ...state.appointments[id],
               interview: { ...interview }
             };
-            console.log(`here is the appointment`, appointment)
 
             dispatch({ type: "SET_INTERVIEW", value: id, app: appointment });
           } else {
@@ -188,7 +155,6 @@ const useApplicationData = function() {
   const cancelInterview = function(id) {
     return axios.delete(`/api/appointments/${id}`).then(
       () => {
-        console.log("in cancel the id is", id);
         haveClientCancelAppointment(id);
       });
   };

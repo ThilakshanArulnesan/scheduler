@@ -22,14 +22,9 @@ export default function Appointment(props) {
   const ERROR_SAVE = "ERROR_SAVE";
   const ERROR_DELETE = "ERROR_DELETE";
   const { mode, transition, back } = useVisualMode(interview ? SHOW : EMPTY);
-  /*
-    useEffect(() => {
-      props.interview ? transition("SHOW") : transition("EMPTY");
-    }, [props.interview]);
-  */
+
   useEffect(() => {
-    console.log(mode);
-    console.log(interview);
+
 
     if (interview && mode === EMPTY) {
       transition(SHOW);
