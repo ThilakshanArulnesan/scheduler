@@ -6,12 +6,10 @@ export default function Form(props) {
 
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
-  const reset = () => {
+
+  const cancel = () => {
     setName("");
     setInterviewer(null);
-  };
-  const cancel = () => {
-    reset();
     props.onCancel();
   };
 
@@ -35,7 +33,6 @@ export default function Form(props) {
         <section className="appointment__actions">
           <Button danger onClick={(event) => {
             cancel();
-            props.onCancel();
           }}>Cancel</Button>
           <Button confirm onClick={(event) => {
             props.onSave(name, interviewer);

@@ -57,7 +57,7 @@ export default function Appointment(props) {
   };
 
   const deleteInterview = function(id) {
-    transition("DELETING", true);
+    transition("DELETING");
 
     cancelInterview(id).then(() => {
       transition("EMPTY");
@@ -84,7 +84,7 @@ export default function Appointment(props) {
           name={interview ? interview.student : ""}
           interviewer={interview ? interview.interviewer.id : null}
           interviewers={interviewers}
-          onCancel={() => back()}
+          onCancel={(event) => back()}
           onSave={save}
         />
       )}

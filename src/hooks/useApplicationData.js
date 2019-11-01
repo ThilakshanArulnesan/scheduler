@@ -25,7 +25,7 @@ const reducer = function(state, action) {
       console.log("adding this appointment ", action.app);
       const appointment = {
         ...state.appointments[action.value],
-        interview: action.app && { ...action.app.interview }
+        interview: action.app && { ...action.app }
       };
 
       console.log("removing this appointment, after ", state.appointments[action.value]);
@@ -95,7 +95,7 @@ const useApplicationData = function() {
     return axios.put(`/api/appointments/${id}`,
       appointment
     ).then(() => {
-      dispatch({ type: "SET_INTERVIEW", value: id, app: appointment });
+      dispatch({ type: "SET_INTERVIEW", value: id, app: interview });
 
     });
   };
@@ -134,12 +134,8 @@ const useApplicationData = function() {
           if (msg.interview) {
             const id = msg.id;
             const interview = msg.interview;
-            const appointment = {
-              ...state.appointments[id],
-              interview: { ...interview }
-            };
 
-            dispatch({ type: "SET_INTERVIEW", value: id, app: appointment });
+            dispatch({ type: "SET_INTERVIEW", value: id, app: interview });
           } else {
             haveClientCancelAppointment(msg.id);
           }
