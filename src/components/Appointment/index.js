@@ -40,13 +40,20 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
+    console.log(`interviewer is `, interviewer);
     transition("SAVING");
-    bookInterview(id, interview).then(() => {
-      transition("SHOW"); //Show the booked interview
+    if (interviewer) {
+      bookInterview(id, interview).then(() => {
+        transition("SHOW"); //Show the booked interview
 
-    }).catch(() =>
-      transition("ERROR_SAVE", true)
-    );
+      }).catch(() =>
+        transition("ERROR_SAVE", true)
+      );
+    } else {
+      console.log("caught the issue");
+      transition("ERROR_SAVE", true);
+    }
+
   };
 
   const deleteInterview = function(id) {
