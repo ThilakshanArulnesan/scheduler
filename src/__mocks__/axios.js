@@ -55,6 +55,22 @@ const fixtures = {
 
 //Mocks axios get request
 export default {
+  put: jest.fn(url => {
+    switch (url) {
+      case 'api/appointments':
+        return Promise.resolve({
+          status: 204,
+          statusText: "No Content",
+        });
+      default:
+        return Promise.resolve({
+          status: 404,
+          statusText: "Not found",
+          data: null
+        });
+
+    }
+  }),
   get: jest.fn(url => {
 
     switch (url) {
