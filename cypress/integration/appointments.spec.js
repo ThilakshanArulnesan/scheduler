@@ -26,8 +26,8 @@ describe("common user interactions", () => {
     cy.get('[alt="Edit"]')
       .first()
       .click({ force: true });
-    cy.get('[alt="Tori Malcolm"]').
-      click();
+    cy.get('[alt="Tori Malcolm"]')
+      .click();
 
 
     cy.get("[data-testid=student-name-input]").clear().type("Lydia Miller-Jones");
