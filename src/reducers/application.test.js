@@ -6,4 +6,5 @@ describe("Application Reducer", () => {
       /tried to reduce with unsupported action type/i
     );
   });
+
 });
