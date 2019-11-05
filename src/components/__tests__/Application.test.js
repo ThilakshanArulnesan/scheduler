@@ -214,7 +214,7 @@ describe("Application", () => {
     expect(getByText(appointment, "Deleting")).toBeInTheDocument();
 
     //7. Error message should show since we mocked the PUT call
-    await waitForElement(() => getByText(appointment, 'Error'));//here?
+    await waitForElement(() => getByText(appointment, 'Error'));
 
     const day = getAllByTestId(container, "day").find(day =>
       queryByText(day, "Monday")
