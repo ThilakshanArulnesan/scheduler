@@ -18,17 +18,12 @@ const reducer = function(state, action) {
       }
     case SET_INTERVIEW: {
 
-      console.log("og state", state);
-      console.log("This is the id", action.value);
-      console.log("removing this appointment ", state.appointments[action.value]);
       let appointId = state.appointments[action.value].id;
-      console.log("adding this appointment ", action.app);
+
       const appointment = {
         ...state.appointments[action.value],
         interview: action.app && { ...action.app }
       };
-
-      console.log("removing this appointment, after ", state.appointments[action.value]);
 
       const appointments = {
         ...state.appointments,
@@ -36,28 +31,17 @@ const reducer = function(state, action) {
       };
       const tempState = { ...state, appointments: appointments };
 
-      console.log("Here are the appointments ", tempState.appointments);
-      console.log(`The temp. state is `, tempState);
-      //Now increment/decrement the number of spots for that day of the week.
-      console.log(`appointId is `, appointId);
       //Get the day of the week:
-      console.log('my output', tempState.days.filter((day) => {
-        return day.appointments.includes(appointId);
-      })[0]);
       const dayToModify = tempState.days.filter((day) => {
         return day.appointments.includes(appointId);
       })[0];
-      console.log(`day to modify is`, dayToModify);
 
       const numSpots = dayToModify.appointments.reduce((acc, cur) => tempState.appointments[cur].interview ? acc : acc += 1, 0);
-      console.log(`my count ` + numSpots);
 
       const modifiedDay = { ...dayToModify, spots: numSpots };
       let modifiedDays = [...tempState.days];
       modifiedDays[dayToModify.id - 1] = modifiedDay;
-      //const modifiedDays = [...tempState.days, [dayToModify.id - 1]: modifiedDay ];
-      console.log(modifiedDay);
-      console.log(`New state`, { ...tempState, days: modifiedDays });
+
       return { ...tempState, days: modifiedDays }
     }
 
@@ -126,7 +110,6 @@ const useApplicationData = function() {
       webSocket.send("ping");
       webSocket.onmessage = (event) => {
         let msg = JSON.parse(event.data);
-        console.log(msg);
 
         if (msg.type === "SET_INTERVIEW") {
           //Server is informing us of a change to the interviews
