@@ -40,7 +40,6 @@ export default function Appointment(props) {
       student: name,
       interviewer
     };
-    console.log(`interviewer is `, interviewer);
     transition("SAVING");
     if (interviewer) {
       bookInterview(id, interview).then(() => {
@@ -50,7 +49,6 @@ export default function Appointment(props) {
         transition("ERROR_SAVE", true)
       );
     } else {
-      console.log("caught the issue");
       transition("ERROR_SAVE", true);
     }
 
