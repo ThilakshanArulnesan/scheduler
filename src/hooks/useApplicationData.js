@@ -1,6 +1,11 @@
 import { useEffect, useReducer } from 'react';
 import axios from 'axios'
-
+import reducer, {
+  SET_DAY,
+  SET_APPLICATION_DATA,
+  SET_INTERVIEW
+} from "reducers/application";
+/*
 const SET_DAY = "SET_DAY";
 const SET_APPLICATION_DATA = "SET_APPLICATION_DATA";
 const SET_INTERVIEW = "SET_INTERVIEW";
@@ -51,6 +56,7 @@ const reducer = function(state, action) {
       );
   }
 }
+*/
 
 const useApplicationData = function() {
 
@@ -64,11 +70,11 @@ const useApplicationData = function() {
 
 
   function haveClientCancelAppointment(id) {
-    dispatch({ type: "SET_INTERVIEW", value: id, app: null });
+    dispatch({ type: SET_INTERVIEW, value: id, app: null });
   }
 
 
-  const setDay = day => dispatch({ type: "SET_DAY", value: day });
+  const setDay = day => dispatch({ type: SET_DAY, value: day });
 
   const bookInterview = function(id, interview) {
     const appointment = {
@@ -79,7 +85,7 @@ const useApplicationData = function() {
     return axios.put(`/api/appointments/${id}`,
       appointment
     ).then(() => {
-      dispatch({ type: "SET_INTERVIEW", value: id, app: interview });
+      dispatch({ type: SET_INTERVIEW, value: id, app: interview });
 
     });
   };
@@ -92,7 +98,7 @@ const useApplicationData = function() {
 
     ]).then(all => {
       dispatch({
-        type: "SET_APPLICATION_DATA",
+        type: SET_APPLICATION_DATA,
         value: {
           days: all[0].data,
           appointments: all[1].data,
@@ -111,14 +117,14 @@ const useApplicationData = function() {
       webSocket.onmessage = (event) => {
         let msg = JSON.parse(event.data);
 
-        if (msg.type === "SET_INTERVIEW") {
+        if (msg.type === SET_INTERVIEW) {
           //Server is informing us of a change to the interviews
           //Check if we should delete the interview
           if (msg.interview) {
             const id = msg.id;
             const interview = msg.interview;
 
-            dispatch({ type: "SET_INTERVIEW", value: id, app: interview });
+            dispatch({ type: SET_INTERVIEW, value: id, app: interview });
           } else {
             haveClientCancelAppointment(msg.id);
           }
