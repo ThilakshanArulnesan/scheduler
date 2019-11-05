@@ -17,13 +17,7 @@ const useApplicationData = function() {
     interviewers: {}
   });
 
-
-  function haveClientCancelAppointment(id) {
-    dispatch({ type: SET_INTERVIEW, value: id, app: null });
-  }
-
-
-  const setDay = day => dispatch({ type: SET_DAY, value: day });
+  const setDay = day => dispatch({ type: SET_DAY, payload: day });
 
   const bookInterview = function(id, interview) {
     const appointment = {
@@ -34,8 +28,7 @@ const useApplicationData = function() {
     return axios.put(`/api/appointments/${id}`,
       appointment
     ).then(() => {
-      dispatch({ type: SET_INTERVIEW, value: id, app: interview });
-
+      dispatch({ type: SET_INTERVIEW, payload: { id, app: interview } });
     });
   };
 
@@ -48,7 +41,7 @@ const useApplicationData = function() {
     ]).then(all => {
       dispatch({
         type: SET_APPLICATION_DATA,
-        value: {
+        payload: {
           days: all[0].data,
           appointments: all[1].data,
           interviewers: all[2].data
@@ -62,21 +55,15 @@ const useApplicationData = function() {
     const webSocket = new WebSocket(process.env.REACT_APP_WEBSOCKET_URL);
 
     webSocket.onopen = () => {
-      webSocket.send("ping");
       webSocket.onmessage = (event) => {
         let msg = JSON.parse(event.data);
 
         if (msg.type === SET_INTERVIEW) {
           //Server is informing us of a change to the interviews
           //Check if we should delete the interview
-          if (msg.interview) {
-            const id = msg.id;
-            const interview = msg.interview;
-
-            dispatch({ type: SET_INTERVIEW, value: id, app: interview });
-          } else {
-            haveClientCancelAppointment(msg.id);
-          }
+          const id = msg.id;
+          const interview = msg.interview;
+          dispatch({ type: SET_INTERVIEW, payload: { id, app: interview } });
         }
       }
     }
@@ -89,7 +76,7 @@ const useApplicationData = function() {
   const cancelInterview = function(id) {
     return axios.delete(`/api/appointments/${id}`).then(
       () => {
-        haveClientCancelAppointment(id);
+        dispatch({ type: SET_INTERVIEW, payload: { id, app: null } });
       });
   };
 

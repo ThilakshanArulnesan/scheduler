@@ -6,26 +6,28 @@ const SET_INTERVIEW = "SET_INTERVIEW";
 export default (state, action) => {
   switch (action.type) {
     case SET_DAY:
-      return { ...state, day: action.value }
+      return { ...state, day: action.payload }
     case SET_APPLICATION_DATA:
       return {
         ...state,
-        days: action.value.days,
-        appointments: action.value.appointments,
-        interviewers: action.value.interviewers
+        days: action.payload.days,
+        appointments: action.payload.appointments,
+        interviewers: action.payload.interviewers
       }
     case SET_INTERVIEW: {
 
-      let appointId = state.appointments[action.value].id;
+      // let appointId = state.appointments[action.payload].id;
+      let appointId = action.payload.id;
+      let app = action.payload.app;
 
       const appointment = {
-        ...state.appointments[action.value],
-        interview: action.app && { ...action.app }
+        ...state.appointments[appointId],
+        interview: app && { ...app }
       };
 
       const appointments = {
         ...state.appointments,
-        [action.value]: appointment
+        [appointId]: appointment
       };
       const tempState = { ...state, appointments: appointments };
 
