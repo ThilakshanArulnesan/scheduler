@@ -5,8 +5,8 @@ const SET_INTERVIEW = "SET_INTERVIEW";
 
 export default (state, action) => {
   switch (action.type) {
-    case SET_DAY:
-      return { ...state, day: action.payload }
+    // case SET_DAY:
+    //   return { ...state, day: action.payload }
     case SET_APPLICATION_DATA:
       return {
         ...state,
