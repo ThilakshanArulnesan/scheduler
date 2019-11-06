@@ -18,6 +18,10 @@ Navigate to `localhost:8000` in your browser to view the code. To test out the s
 The api-server is provided by [Lighthouse labs](https://github.com/lighthouse-labs/scheduler-api). To run your own copy of the server you must clone and follow the instructions in the [provided readme](https://github.com/lighthouse-labs/scheduler-api/blob/master/README.md).
 
 
+## Hosted Server
+A working version of the project is enabled using CircleCI for continuous integration and netlify for continous deployment. It can be accessed using [https://romantic-nobel-c7aa08.netlify.com/](https://romantic-nobel-c7aa08.netlify.com/). The api-server is hosted by Heroku and will take some time to initially boot up (please try refreshing the page after 1-2 minutes).
+
+
 ## Demo/Example
 When loading the app you should see a screen similar to the one below.
 ![landing page](doc/landing.png)
@@ -48,9 +52,15 @@ Once deleted the interview will be removed from all users connected to the appli
 ```sh
 npm test
 ```
+- If running properly there should be 42 test cases.
 
 ### Running Storybook Visual Testbed
 
 ```sh
 npm run storybook
+```
+
+### Running Cypress for end-to-end testing
+```sh
+npm run cypress
 ```
